@@ -39,6 +39,12 @@ exports.product_details = function (req, res) {
         if (err) return next(err);
         res.send(product);
     })
+
+    // Get All()
+    // Product.find({}, function (err, product) {
+    //     if (err) return next(err);
+    //     res.send(product);
+    // })
 };
 
 exports.product_update = function (req, res) {
