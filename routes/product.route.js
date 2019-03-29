@@ -18,7 +18,7 @@ router.put('/:id/update', product_controller.product_update);
 router.post('/:id/delete', product_controller.product_delete);
 // api:delete /web:post
 
-// router.get('/:id/deleteGet', product_controller.product_delete);
+router.get('/:id/deleteGet', product_controller.product_delete);
 
 
 // router.get('/test', (req, res) => {

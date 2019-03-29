@@ -1,11 +1,12 @@
 const express = require('express');
 const app = express(); 
 const bodyParser = require('body-parser');
-const methodOverride = require('method-override')
+// const methodOverride = require('method-override')
 const product = require('./routes/product.route'); // Imports routes for the products
 
-app.use(methodOverride('_method'));
+// app.use(methodOverride('_method'));
 
+// app.use(express.methodOverride());
 
 //DB connect
 // (1)
