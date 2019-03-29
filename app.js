@@ -1,6 +1,8 @@
 const express = require('express');
+const app = express(); 
 const bodyParser = require('body-parser');
 const product = require('./routes/product.route'); // Imports routes for the products
+
 
 //DB connect
 // (1)
@@ -18,12 +20,12 @@ MongoClient.connect('mongodb://localhost:27017/product', (err, client) => {
 	  })
 })
 
-// 初始化
-const app = express(); 
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/products', product); // 引入路由 +前綴
+app.use('/public', express.static('public'));
 
 app.set('view engine', 'ejs');
 
@@ -35,8 +37,13 @@ app.listen(port, () => {
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
+})
+
+app.get('/chat', (req, res) => {
+  res.sendFile(__dirname + '/views/chat.html')
 
 })
+
 
 
 // app.post('/create', (req, res) => {
@@ -47,3 +54,5 @@ app.get('/', (req, res) => {
 // 		res.redirect('/')
 // 	})
 // })
+
+
