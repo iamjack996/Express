@@ -2,7 +2,14 @@ const Product = require('../models/product.model');
 
 //Simple version, without validation or sanitation
 exports.test = function (req, res) {
-	res.render('test');
+	
+	db.collection('products').find({}).sort({ price: -1 }).toArray(function(err, result) {
+    	if (err) return console.log(err)
+		    console.log('find All')
+		    res.render('test',{data : result});
+	  })
+
+	// res.render('test',{data : data});
     // res.send('Greetings !!! from the Test controller! HELLO');
 };
 
@@ -35,7 +42,8 @@ exports.product_create = function (req, res) {
     db.collection('products').save(req.body, (err, result) => {
     	if (err) return console.log(err)
 		    console.log('saved to database')
-		    res.redirect('/')
+		    res.redirect('/products/test')
+		    // res.redirect('/')
 	  })
 
 };
@@ -78,7 +86,8 @@ exports.product_update = function (req, res) {
 exports.product_delete = function (req, res) {
     Product.findByIdAndRemove(req.params.id, function (err) {
         if (err) return next(err);
-        res.send('Deleted successfully!');
+        res.redirect('/products/test')
+        // res.send('Deleted successfully!');
     })
 };
 

@@ -11,8 +11,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Fixed Layout
-        <small>Blank example to the fixed layout</small>
+        Product List
+        <small>Product example to show and create.</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -23,6 +23,86 @@
 
     <!-- Main content -->
     <section class="content">
+
+    	<div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">Product Create</h3>
+            </div>
+            <div class="box-body">
+	           	<form action="/products/create" method="POST">
+					品名：
+					<input type="text" class="form-control" placeholder="name" name="name">
+					<br>
+					價錢：
+					<input type="text" class="form-control" placeholder="price" name="price">
+					<br>
+					<button class="btn btn-primary" type="submit">新增</button>
+				</form>
+            </div>
+            <!-- /.box-body -->
+          </div>
+
+	<div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Product Show Table</h3>
+
+              <div class="box-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-hover">
+                <tbody>
+                	<tr>
+	                  <th>#</th>
+	                  <th>Name</th>
+	                  <th>Price</th>
+	                  <!-- <th>Status</th> -->
+	                  <th>edit</th>
+	                </tr>
+	                <% for(var i=0; i<data.length; i++) {%>
+		                <tr>
+		                  <td></td>
+		                  <td><%= data[i].name %></td>
+		                  <td>$ <%= data[i].price %></td>
+		                  <!-- <td>
+		                  	<div class="progress-bar progress-bar-danger" style="width: <%= data[i].price %>%"></div>
+		                  </td> -->
+		                  <td>
+		                  	<!-- <a href="/products/<%= data[i]._id %>/deleteGet" class="btn btn-danger">刪除</a> -->
+		                  	<form action="/products/<%= data[i]._id %>/delete" method="POST">
+		                  		<input type="hidden" name="_method" value="delete"/>
+		                  		<button class="btn btn-danger" type="submit">刪除</button>
+		                  	</form>
+		                  </td>
+		                </tr>
+	                <% } %>
+	              </tbody>
+	      		</table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+      </div>
+
+     	<ul class="">
+		  <% for(var i=0; i<data.length; i++) {%>
+		    <li class="">
+		      <span><%= data[i].name %></span>
+		      <span><%= data[i].price %></span>
+		    </li>
+		  <% } %>
+		</ul>
 
 
     </section>
