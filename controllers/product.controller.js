@@ -1,4 +1,6 @@
 const Product = require('../models/product.model');
+const { check, validationResult } = require('express-validator/check');
+
 
 //Simple version, without validation or sanitation
 exports.test = function (req, res) {
@@ -22,29 +24,37 @@ exports.chat = function (req, res) {
 
 exports.product_create = function (req, res) {
 
-	// (1)
-    // let product = new Product(
-    //     {
-    //         name: req.body.name,
-    //         price: req.body.price
-    //     }
-    // );
+	const errors = validationResult(req);
+	  if (!errors.isEmpty()) {
+	  	// req.flash('message', errors.array());
+	  	// res.redirect('/products/test');
+	  	res.send(errors.array());
+	  }
 
-    // product.save(function (err) {
-    //     if (err) {
-    //         return next(err);
-    //     }
-    //     res.send('Product Created successfully')
-    // })
+	// (1)
+    let product = new Product(
+        {
+            name: req.body.name,
+            price: req.body.price
+        }
+    );
+
+    product.save(function (err) {
+        if (err) {
+            return next(err);
+        }
+        // res.send('Product Created successfully')
+        res.redirect('/products/test')
+    })
 
 
 	// (2)
-    db.collection('products').save(req.body, (err, result) => {
-    	if (err) return console.log(err)
-		    console.log('saved to database')
-		    res.redirect('/products/test')
-		    // res.redirect('/')
-	  })
+   //  db.collection('products').save(req.body, (err, result) => {
+   //  	if (err) return console.log(err)
+		 //    console.log('saved to database')
+		 //    res.redirect('/products/test')
+		 //    // res.redirect('/')
+	  // })
 
 };
 
