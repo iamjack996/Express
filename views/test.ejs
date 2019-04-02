@@ -4,125 +4,199 @@
 <%- include('layouts/header.ejs') -%>
 
 <%- include('layouts/sidebar.ejs') -%>
-  <!-- =============================================== -->
+  
+  <div id="v_tavle">
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        Product List
-        <small>Product example to show and create</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Layout</a></li>
-        <li class="active">Fixed</li>
-      </ol>
-    </section>
 
-    <% if (locals.messages) { %>
-
-	    <script language="javascript">
-	    alert("<%= messages.msg %>");
-	    </script>
-
-    <% } %>
-
-    <!-- Main content -->
-    <section class="content">
-
-    	<div class="box box-success">
-            <div class="box-header with-border">
-              <h3 class="box-title">Product Create</h3>
-            </div>
-            <div class="box-body">
-	           	<form action="/products/create" method="POST">
-					品名：
-					<input type="text" class="form-control" placeholder="name" name="name">
-					<br>
-					價錢：
-					<input type="text" class="form-control" placeholder="price" name="price">
-					<br>
-					<button class="btn btn-primary" type="submit">新增</button>
-				</form>
-            </div>
-            <!-- /.box-body -->
-          </div>
-
-	<div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Product Show Table</h3>
-
-              <div class="box-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-
-                  <div class="input-group-btn">
-                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                  </div>
+  		<!-- EditModal -->
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">修改資訊</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editForm" :action="modal.url_upd" method="post">
+                            
+                            <input type="hidden" name="id" v-model="modal.id"/>
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label">Name：</label>
+                                <input type="text" class="form-control" name="name" v-model="modal.name">
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label">Price：</label>
+                                <input type="text" class="form-control" name="price" v-model="modal.price">
+                            </div>
+                            
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="editBtn">儲存</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+                    </div>
                 </div>
-              </div>
             </div>
-            <!-- /.box-header -->
-            <div class="box-body table-responsive no-padding">
-              <table class="table table-hover">
-                <tbody>
-                	<tr>
-	                  <th>#</th>
-	                  <th>Name</th>
-	                  <th>Price</th>
-	                  <!-- <th>Status</th> -->
-	                  <th>edit</th>
-	                </tr>
-	                <% for(var i=0; i<data.length; i++) {%>
-		                <tr>
-		                  <td></td>
-		                  <td><%= data[i].name %></td>
-		                  <td>$ <%= data[i].price %></td>
-		                  <!-- <td>
-		                  	<div class="progress-bar progress-bar-danger" style="width: <%= data[i].price %>%"></div>
-		                  </td> -->
-		                  <td>
-		                  	<!-- <a href="/products/<%= data[i]._id %>/deleteGet" class="btn btn-danger">刪除</a> -->
-		                  	<form action="/products/<%= data[i]._id %>/delete" method="POST">
-		                  		<!-- <input type="hidden" name="_method" value="delete"/> -->
-		                  		<button class="btn btn-danger" type="submit">刪除</button>
-		                  	</form>
-		                  </td>
-		                </tr>
-	                <% } %>
-	              </tbody>
-	      		</table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
         </div>
-      </div>
+  	
+	  <!-- Content Wrapper. Contains page content -->
+	  <div class="content-wrapper">
+	    <!-- Content Header (Page header) -->
+	    <section class="content-header">
+	      <h1>
+	        Product List
+	        <small>Product example to show and create</small>
+	      </h1>
+	      <ol class="breadcrumb">
+	        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+	        <li><a href="#">Layout</a></li>
+	        <li class="active">Fixed</li>
+	      </ol>
+	    </section>
 
-     	<ul class="">
-		  <% for(var i=0; i<data.length; i++) {%>
-		    <li class="">
-		      <span><%= data[i].name %></span>
-		      <span><%= data[i].price %></span>
-		    </li>
-		  <% } %>
-		</ul>
+
+	    <% if (locals.messages) { %>
+
+		    <script language="javascript">
+		    alert("<%= messages.msg %>");
+		    </script>
+
+	    <% } %>
+
+	    <!-- Main content -->
+	    <section class="content">
+
+	    	<div class="box box-success">
+	            <div class="box-header with-border">
+	              <h3 class="box-title">Product Create</h3>
+	            </div>
+	            <div class="box-body">
+		           	<form action="/products/create" method="POST">
+						品名：
+						<input type="text" class="form-control" placeholder="name" name="name">
+						<br>
+						價錢：
+						<input type="text" class="form-control" placeholder="price" name="price">
+						<br>
+						<button class="btn btn-primary" type="submit">新增</button>
+					</form>
+	            </div>
+	            <!-- /.box-body -->
+	          </div>
+
+		<div class="row">
+	        <div class="col-xs-12">
+	          <div class="box">
+	            <div class="box-header">
+	              <h3 class="box-title">Product Show Table</h3>
+
+	              <div class="box-tools">
+	                <div class="input-group input-group-sm" style="width: 150px;">
+	                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+	                  <div class="input-group-btn">
+	                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+	            <!-- /.box-header -->
+	            <div class="box-body table-responsive no-padding">
+	              <table class="table table-hover">
+	                <tbody>
+	                	<tr>
+		                  <th>#</th>
+		                  <th>Name</th>
+		                  <th>Price</th>
+		                  <!-- <th>Status</th> -->
+		                  <th>edit</th>
+		                </tr>
+
+		                <tr v-for="(row, index) in rows" role="row">
+	                		<input type="hidden" v-model="row.id"/>
+			                  <td>{{ index+1 }}</td>
+			                  <td>{{ row.name }}</td>
+			                  <td>$ {{ row.price }}</td>
+			                  <td>
+			                  	<!-- <div class="progress-bar progress-bar-danger" style="width: {{ row.price }}%"></div> -->
+			                  </td>
+			                  <td>
+			                  	<button @click="editModal(index)" class="btn-sm btn-primary" data-toggle="modal" data-target="#editModal">編輯</button>	
+			                  	<form :action="row.url_del" method="POST">
+			                  		<!-- <input type="hidden" name="_method" value="delete"/> -->
+			                  		<button class="btn-sm btn-danger" type="submit">刪除</button>
+			                  	</form>
+			                  </td>
+		                </tr>
+		                
+		              </tbody>
+		      		</table>
+	            </div>
+	            <!-- /.box-body -->
+	          </div>
+	          <!-- /.box -->
+	        </div>
+	      </div>
+
+	     	<ul class="">
+			  <% for(var i=0; i<data.length; i++) {%>
+			    <li class="">
+			      <span><%= data[i].name %></span>
+			      <span><%= data[i].price %></span>
+			    </li>
+			  <% } %>
+			</ul>
 
 
-    </section>
-    <!-- /.content -->
+	    </section>
+	    <!-- /.content -->
+	  </div>
+	  <!-- /.content-wrapper -->
+
   </div>
-  <!-- /.content-wrapper -->
 
 <%- include('layouts/footer.ejs') -%>
 
-<%- include('layouts/shareJs.ejs') -%>  
+<%- include('layouts/shareJs.ejs') -%>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#editBtn").click(function(){
+				$("#editForm").submit();
+			});
+		});
+	</script>
+
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: '#v_tavle',
+			data: {
+				rows: [
+					<% for(var i=0; i<data.length; i++) { %>
+				    {
+				    	id: "<%= data[i]._id %>",
+				    	name: "<%= data[i].name %>",
+				    	price: "<%= data[i].price %>",
+				    	url_del: "/products/<%= data[i]._id %>/delete?_method=DELETE",
+				    	url_upd: "/products/<%= data[i]._id %>/update?_method=PUT"
+				    },
+				  	<% } %>
+				],
+				modal: {}
+			},
+			methods: {
+				editModal: function (index) {
+					vm.modal = {};
+					vm.modal["id"] = this.rows[index].id;
+					vm.modal["name"] = this.rows[index].name;
+					vm.modal["price"] = this.rows[index].price;
+					vm.modal["url_upd"] = this.rows[index].url_upd;
+				}
+			}
+		});
 
 
+	</script>
 
 </body>
 </html>

@@ -7,6 +7,10 @@ const session        = require('express-session'),
 	  cookieParser   = require('cookie-parser'),
 	  flash          = require('connect-flash');
 
+const methodOverride = require('method-override');
+app.use(methodOverride('X-HTTP-Method-Override'));
+app.use(methodOverride('_method'));
+
 
 
 //DB connect
