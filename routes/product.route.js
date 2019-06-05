@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+module.exports = router;
+
 const { check, validationResult } = require('express-validator/check');
 
 // Require the controllers WHICH WE DID NOT CREATE YET!!
@@ -22,12 +24,9 @@ router.put('/:id/update', product_controller.product_update);
 router.delete('/:id/delete', product_controller.product_delete);
 // api:delete /web:post
 
-router.get('/:id/deleteGet', product_controller.product_delete);
+router.get('/search', product_controller.product_search);
 
 
 // router.get('/test', (req, res) => {
 //   res.render(test)
 // })
-
-module.exports = router;
-

@@ -4,13 +4,23 @@ const { check, validationResult } = require('express-validator/check');
 
 //Simple version, without validation or sanitation
 exports.test = function (req, res) {
-	
-	db.collection('products').find({}).sort({ price: -1 }).toArray(function(err, result) {
+	console.log(req.query);
+											// $regex: '.*' + req.query.search + '.*'
+	db.collection('products').find({ name: { $regex: '.*' + req.query.search + '.*' } }).sort({ price: -1 }).toArray(function(err, result) {
     	if (err) return console.log(err)
-		    console.log('find All')
-		    res.render('test',{data : result});
+		    console.log('Find Search /' + result);
+		    res.render('test',{ data : result });
 	  })
 
+
+
+		// db.collection('products').find({}).sort({ price: -1 }).toArray(function(err, result) {
+  //   	if (err) return console.log(err)
+		//     console.log('Find All')
+		//     res.render('test',{data : result});
+	 //  })
+	
+	
 	// res.render('test',{data : data});
     // res.send('Greetings !!! from the Test controller! HELLO');
 };
@@ -100,6 +110,15 @@ exports.product_delete = function (req, res) {
         if (err) return next(err);
         res.redirect('/products/test')
         // res.send('Deleted successfully!');
+    })
+};
+
+exports.product_search = function (req, res) {
+	console.log(123);
+    console.log(req);
+    Product.find({ name: req.params.search}, function (err, product) {
+        if (err) return next(err);
+        res.redirect('/products/test')
     })
 };
 

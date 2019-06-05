@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<%- include('layouts/header.ejs') -%>
+
+<%- include('layouts/sidebar.ejs') -%>
+  
+	<div id="v_tavle">
+
+		<div class="content-wrapper">
+
+			 <!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Articles List
+					<small> Articles example to show and create</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li>
+						<a href="#"><i class="fa fa-dashboard"></i> Home</a>
+					</li>
+					<li>
+						<a href="#">Layout</a>
+					</li>
+					<li class="active">Articles Page</li>
+				</ol>
+			</section>
+
+			<section class="content">
+
+				<div class="box box-success">
+					<div class="box-header with-border">
+					  <h3 class="box-title">新增文章</h3>
+					</div>
+					<div class="box-body">
+					   	<form action="/articles/create" method="POST">
+							標題：
+							<input type="text" class="form-control" placeholder="title..." name="title">
+							<br>
+							作者：
+							<input type="text" class="form-control" placeholder="author..." name="author">
+							<br>
+							內容：
+							<input type="text" class="form-control" placeholder="content..." name="content">
+							<br>
+							<button class="btn btn-primary" type="submit">新增</button>
+						</form>
+					</div>
+				<!-- /.box-body -->
+				</div>
+
+
+				<ul class="">
+				  <% for(var i=0; i<data.length; i++) {%>
+				    <li class="">
+				    	(<%= i+1 %>)<br>
+				    	<span>Title => <%= data[i].title %></span><br>
+						<span>Author => <%= data[i].author %></span><br>
+						<span>Content => <%= data[i].content %></span>
+				    </li>
+				  <% } %>
+				</ul>
+
+			</section>
+
+		</div>
+
+	</div>
+
+<%- include('layouts/footer.ejs') -%>
+
+<%- include('layouts/shareJs.ejs') -%>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			
+		});
+	</script>
+	<script type="text/javascript">
+		
+	</script>
+
+</body>
+</html>

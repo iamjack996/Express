@@ -22,10 +22,9 @@
     "method-override": "^3.0.0",
     "mongodb": "^3.2.2",
     "mongoose": "^5.4.19",
+    "nodemon": "^1.19.1",
     "socket.io": "^2.2.0",
     "vue": "^2.6.10"
   },
-  "devDependencies": {
-    "nodemon": "^1.18.10"
-  }
+  "devDependencies": {}
 }
