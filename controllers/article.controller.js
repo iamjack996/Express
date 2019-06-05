@@ -1,4 +1,5 @@
 const Article = require('../models/article.model');
+const { check, validationResult } = require('express-validator/check');
 
 
 exports.index = function (req, res) {

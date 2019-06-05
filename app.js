@@ -52,18 +52,39 @@ const article = require('./routes/article.route');
 app.use('/articles', article);
 
 
+// Express Session Middleware
+const session = require('express-session');
+
+app.use(session({
+	secret: 'keyboard cat',
+	resave: true,
+	saveUninitialized: true,
+	// cookie: { secure: true } 
+}))
+
+// Express Messages Middleware
+const flash = require('connect-flash');
+
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
+
+var cookieParser = require('cookie-parser');
+
+// app.use(require('connect-flash')());
+app.use(cookieParser('secret'));
+app.use(session({cookie: { maxAge: 60000 }}));
+app.use(flash());
 
 
-// Part4
-// https://www.youtube.com/watch?v=cVYQEvP-_PA&list=PLillGF-RfqbYRpji8t4SxUkMxfowG4Kqp&index=4
+
+// Part8 - 12:20
+// https://www.youtube.com/watch?v=rBzCvbA0Dls&list=PLillGF-RfqbYRpji8t4SxUkMxfowG4Kqp&index=8
 
 //////
 
 
-
-const session        = require('express-session'),
-	  cookieParser   = require('cookie-parser'),
-	  flash          = require('connect-flash');
 
 const methodOverride = require('method-override');
 app.use(methodOverride('X-HTTP-Method-Override'));

@@ -13,7 +13,8 @@ router.get('/test', product_controller.test);
 router.get('/chat', product_controller.chat);
 
 router.post('/create', [ 
-	check('name','名稱不可空,且字元須大於2').isLength({ min: 3 }).not().isEmpty(),
+	check('name','名稱不可空').not().isEmpty(),
+	check('name','名稱須大於2位元').isLength({ min: 3 }),
 	check('price','價錢有誤/不可空').not().isEmpty().isInt()
 	] ,product_controller.product_create);
 

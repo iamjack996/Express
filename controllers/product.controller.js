@@ -30,32 +30,35 @@ exports.chat = function (req, res) {
 	res.sendFile(__dirname + 'views/chat.html')
 };
 
-
-
 exports.product_create = function (req, res) {
 
 	const errors = validationResult(req);
-	  if (!errors.isEmpty()) {
-	  	// req.flash('message', errors.array());
-	  	// res.redirect('/products/test');
-	  	res.send(errors.array());
-	  }
+        if (!errors.isEmpty()) {
+        	// req.flash('message', errors.array());
+            
+console.log(errors.array());
+            req.flash('messages',errors.array());
+            res.redirect('/products/test')
+        	// res.send(errors.array());
+        }else {
+            // (1)
+            let product = new Product(
+                {
+                    name: req.body.name,
+                    price: req.body.price
+                }
+            );
 
-	// (1)
-    let product = new Product(
-        {
-            name: req.body.name,
-            price: req.body.price
+            product.save(function (err) {
+                if (err) {
+                    console.log(err);
+                    // return next(err);
+                }
+                // res.send('Product Created successfully')
+                req.flash('success','Product Created successfully');
+                res.redirect('/products/test')
+            })
         }
-    );
-
-    product.save(function (err) {
-        if (err) {
-            return next(err);
-        }
-        // res.send('Product Created successfully')
-        res.redirect('/products/test')
-    })
 
 
 	// (2)
